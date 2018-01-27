@@ -1,0 +1,246 @@
+<section id="bt_section5a5a1beceb7b9" class="boldSection gutter fullScreenHeight inherit wBackground cover">
+  <div class="port">
+    <div class="boldCell">
+      <div class="boldCellInner">
+        <div class="boldRow ">
+          <div class="boldRowInner">
+            <div class="rowItem col-md-12 col-ms-12 btTextLeft" data-width="12">
+              <div class="rowItemContent"><header class="header btClear large">
+                <div class="dash">
+                  <h2><span class="headline">Step 1: Buy Ticket</span></h2>
+                  <div id="product-component-3f1f3a97090"></div>
+                </div>
+              </header></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><section id="bt_section5a5a1becebef6" class="boldSection gutter fullScreenHeight inherit wBackground cover">
+  <div class="port">
+    <div class="boldCell">
+      <div class="boldCellInner">
+        <div class="boldRow ">
+          <div class="boldRowInner">
+            <div class="rowItem col-md-12 col-ms-12 btTextLeft" data-width="12">
+              <div class="rowItemContent"><header class="header btClear extralarge">
+                <div class="dash">
+                  <h1><span class="headline">Step 2: Select Workshops</span></h1>
+                  <div class="workshops0803">
+                    <h2>Workshops 08.03.18</h2>
+                    <div id="collection0803"></div>
+                  </div>
+                  <div class="workshops0903">
+                    <h2>Workshops 09.03.18</h2>
+                    <div id="collection0903"></div>
+                  </div>
+                  <div class="workshops1003">
+                    <h2>Workshops 10.03.18</h2>
+                    <div id="collection1003"></div>
+                  </div>
+                </div>
+              </header></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://sdks.shopifycdn.com/js-buy-sdk/v1/latest/index.umd.min.js"></script>
+<style>
+.shopify-buy__product {
+  font-size: 12px;
+width: 150px;
+display: inline-block;
+}
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+
+(function () {
+  var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+  if (window.ShopifyBuy) {
+    if (window.ShopifyBuy.UI) {
+      ShopifyBuyInit();
+    } else {
+      loadScript();
+    }
+  } else {
+    loadScript();
+  }
+
+  function loadScript() {
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = scriptURL;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+    script.onload = ShopifyBuyInit;
+  }
+
+  function ShopifyBuyInit() {
+    var client = ShopifyBuy.buildClient({
+      domain: 'todo-example.myshopify.com',
+      storefrontAccessToken: 'todo-example'
+    });
+    console.log(client);
+    client.collection.fetchAllWithProducts().then((collections) => {
+      // Do something with the collections
+      console.log(collections);
+      console.log(collections[0].products);
+    });
+
+    // ShopifyBuy.UI.onReady(client).then(function (ui) {
+    //   ui.createComponent('product', {
+    //     id: [205903167532],
+    //     node: document.getElementById('product-component-3f1f3a97090'),
+    //     moneyFormat: '%E2%82%AC%7B%7Bamount%7D%7D',
+    //     options: {
+    //       "product": {
+    //         "layout": "horizontal",
+    //         "variantId": "9043366969386",
+    //         "width": "100%",
+    //         "iframe": false,
+    //         "contents": {
+    //           "img": false,
+    //           "imgWithCarousel": false,
+    //           "variantTitle": false,
+    //           "options": false,
+    //           "description": true,
+    //           "buttonWithQuantity": false,
+    //           "quantity": false
+    //         },
+    //         "events": {
+    //           "addVariantToCart": function (product) {
+    //             console.log('updated quantity');
+    //             var buttons = $('.shopify-buy__collection .shopify-buy__btn');
+    //             console.log(buttons);
+    //             for(var i = 0; i < buttons.length; i++) {
+    //               console.log(buttons[i]);
+    //               if(buttons[i].dataset.element === "product.button") {
+    //                 buttons[i].disabled = false;
+    //               }
+    //             }
+    //             document.body.scrollTop = document.getElementById('bt_section5a5a1becebef6').offsetTop;
+    //           }
+    //         },
+    //         "styles": { "product": { "text-align": "left", "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0", "margin-bottom": "50px" } }, "title": { "font-size": "26px" }, "price": { "font-size": "18px" }, "compareAt": { "font-size": "15px" } }
+    //       },
+    //       "cart": { "contents": { "button": false }, "styles": { "footer": { "background-color": "#ffffff" } } },
+    //       "modalProduct": { "contents": { "img": false, "imgWithCarousel": true, "variantTitle": false, "buttonWithQuantity": false, "button": false, "quantity": false }, "styles": { "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0px", "margin-bottom": "0px" } } } },
+    //       "productSet": { "styles": { "products": { "@media (min-width: 601px)": { "margin-left": "-20px" } } } }
+    //     }
+    //   });
+    //
+    //             ui.createComponent('collection', {
+    //               id: 15342600236,
+    //               node: document.getElementById('collection0803'),
+    //               moneyFormat: '%E2%82%AC%7B%7Bamount%7D%7D',
+    //               options: {
+    //                 "product": {
+    //                   "variantId": "all",
+    //                   "iframe": false,
+    //                   "contents": {
+    //                     "imgWithCarousel": false,
+    //                     "variantTitle": false,
+    //                     "description": false,
+    //                     "buttonWithQuantity": false,
+    //                     "quantity": false
+    //                   },
+    //                   "events": {
+    //                     'afterRender': function (component) {
+    //                       console.log('loaded');
+    //                       var collection = document.getElementById('collection0803');
+    //                       var buttons = collection.getElementsByClassName('shopify-buy__btn');
+    //                       console.log(buttons);
+    //                       for(var i = 0; i < buttons.length; i++) {
+    //                         if(buttons[i].dataset.element === "product.button") {
+    //                           buttons[i].disabled = true;
+    //                         }
+    //                       }
+    //                     }
+    //                   },
+    //                   "styles": { "product": { "@media (min-width: 601px)": { "max-width": "calc(25% - 20px)", "margin-left": "20px", "margin-bottom": "50px" } } }
+    //                 },
+    //                 "cart": { "events": { "openCheckout": function (cart) { console.log('cart quantity updated'); console.log(cart); } }, "contents": { "button": false }, "styles": { "footer": { "background-color": "#ffffff" } } },
+    //                 "modalProduct": { "contents": { "img": false, "imgWithCarousel": true, "variantTitle": false, "buttonWithQuantity": true, "button": false, "quantity": false }, "styles": { "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0px", "margin-bottom": "0px" } } } },
+    //                 "productSet": { "iframe": false, "styles": { "products": { "@media (min-width: 601px)": { "margin-left": "-20px" } } } }
+    //               }
+    //             });
+    //             ui.createComponent('collection', {
+    //               id: 15343386668,
+    //               node: document.getElementById('collection0903'),
+    //               moneyFormat: '%E2%82%AC%7B%7Bamount%7D%7D',
+    //               options: {
+    //                 "product": {
+    //                   "variantId": "all",
+    //                   "iframe": false,
+    //                   "contents": {
+    //                     "imgWithCarousel": false,
+    //                     "variantTitle": false,
+    //                     "description": false,
+    //                     "buttonWithQuantity": false,
+    //                     "quantity": false
+    //                   },
+    //                   "events": {
+    //                     'afterRender': function (component) {
+    //                       console.log('loaded');
+    //                       var collection = document.getElementById('collection0903');
+    //                       var buttons = collection.getElementsByClassName('shopify-buy__btn');
+    //                       console.log(buttons);
+    //                       for(var i = 0; i < buttons.length; i++) {
+    //                         if(buttons[i].dataset.element === "product.button") {
+    //                           buttons[i].disabled = true;
+    //                         }
+    //                       }
+    //                     }
+    //                   },
+    //                   "styles": { "product": { "@media (min-width: 601px)": { "max-width": "calc(25% - 20px)", "margin-left": "20px", "margin-bottom": "50px" } } }
+    //                 },
+    //                 "cart": { "events": { "openCheckout": function (cart) { console.log('cart quantity updated'); console.log(cart); } }, "contents": { "button": false }, "styles": { "footer": { "background-color": "#ffffff" } } },
+    //                 "modalProduct": { "contents": { "img": false, "imgWithCarousel": true, "variantTitle": false, "buttonWithQuantity": true, "button": false, "quantity": false }, "styles": { "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0px", "margin-bottom": "0px" } } } },
+    //                 "productSet": { "iframe": false, "styles": { "products": { "@media (min-width: 601px)": { "margin-left": "-20px" } } } }
+    //               }
+    //             });
+    //             ui.createComponent('collection', {
+    //               id: 15343878188,
+    //               node: document.getElementById('collection1003'),
+    //               moneyFormat: '%E2%82%AC%7B%7Bamount%7D%7D',
+    //               options: {
+    //                 "product": {
+    //                   "variantId": "all",
+    //                   "iframe": false,
+    //                   "contents": {
+    //                     "imgWithCarousel": false,
+    //                     "variantTitle": false,
+    //                     "description": false,
+    //                     "buttonWithQuantity": false,
+    //                     "quantity": false
+    //                   },
+    //                   "events": {
+    //                     'afterRender': function (component) {
+    //                       console.log('loaded');
+    //                       var collection = document.getElementById('collection1003');
+    //                       var buttons = collection.getElementsByClassName('shopify-buy__btn');
+    //                       console.log(buttons);
+    //                       for(var i = 0; i < buttons.length; i++) {
+    //                         if(buttons[i].dataset.element === "product.button") {
+    //                           buttons[i].disabled = true;
+    //                         }
+    //                       }
+    //                     }
+    //                   },
+    //                   "styles": { "product": { "@media (min-width: 601px)": { "max-width": "calc(25% - 20px)", "margin-left": "20px", "margin-bottom": "50px" } } }
+    //                 },
+    //                 "cart": { "events": { "openCheckout": function (cart) { console.log('cart quantity updated'); console.log(cart); } }, "contents": { "button": false }, "styles": { "footer": { "background-color": "#ffffff" } } },
+    //                 "modalProduct": { "contents": { "img": false, "imgWithCarousel": true, "variantTitle": false, "buttonWithQuantity": true, "button": false, "quantity": false }, "styles": { "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0px", "margin-bottom": "0px" } } } },
+    //                 "productSet": { "iframe": false, "styles": { "products": { "@media (min-width: 601px)": { "margin-left": "-20px" } } } }
+    //               }
+    //             });
+               //
+               //
+              //  });
+              } })();
+                </script>

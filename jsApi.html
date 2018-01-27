@@ -1,0 +1,337 @@
+<html>
+<header>
+  <title>webahop</title>
+  <style>
+    .cart {
+      position: fixed;
+      right: 0;
+      background-color: aliceblue;
+      width: 24%;
+      height: 500px;
+      top: 0px;
+    }
+
+    .productWrapper.picked {
+      background-color: #efffe8;
+    }
+
+    .productWrapper {
+      width: 150px;
+      height: 150px;
+      padding: 10px;
+      margin: 10px;
+      /*background-color: #efffe8;*/
+      text-align: center;
+      top: 0px;
+      display: inline-table;
+      position: relative;
+    }
+
+    button {
+      position: absolute;
+      bottom: 10px;
+      left: 60px;
+      background-color: #00ff02;
+      color: black;
+      font-weight: 700;
+      border-radius: 6px;
+      padding: 5px 10px;
+      border-color: #00ff02;
+    }
+
+    .workshopsWrapper {
+      width: 75%;
+    }
+
+    .productWrapper .title {
+      font-weight: 800;
+    }
+
+    .cart .workshops {
+      height: 100px;
+    }
+
+    .cart .festival {
+      height: 100px;
+    }
+
+    #checkout {
+      margin: auto;
+      display: block;
+    }
+  </style>
+</header>
+<body>
+  <section id="bt_section5a5a1beceb7b9" class="boldSection gutter fullScreenHeight inherit wBackground cover">
+    <div class="port">
+      <div class="boldCell">
+        <div class="boldCellInner">
+          <div class="boldRow ">
+            <div class="boldRowInner">
+              <div class="rowItem col-md-12 col-ms-12 btTextLeft" data-width="12">
+                <div class="rowItemContent">
+                  <header class="header btClear large">
+                    <div class="dash">
+                      <h2>
+                        <span class="headline">Step 1: Buy Ticket</span>
+                      </h2>
+                      <div id='productTicket'></div>
+                    </div>
+                  </header>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="bt_section5a5a1becebef6" class="boldSection gutter fullScreenHeight inherit wBackground cover">
+    <div class="port">
+      <div class="boldCell">
+        <div class="boldCellInner">
+          <div class="boldRow ">
+            <div class="boldRowInner">
+              <div class="rowItem col-md-12 col-ms-12 btTextLeft" data-width="12">
+                <div class="rowItemContent">
+                  <header class="header btClear extralarge">
+                    <div class="dash workshopsWrapper">
+                      <h1>
+                        <span class="headline">Step 2: Select Workshops</span>
+                      </h1>
+                      <h2>8.3. Workshops</h2>
+                      <div id="0803Workshops">
+                        <div id='workshops-08-03-18'></div>
+                      </div>
+                      <h2>9.3. Workshops</h2>
+                      <div id="0903Workshops">
+                        <div id='workshops-09-03-18'></div>
+                      </div>
+                      <h2>10.3. Workshops</h2>
+                      <div id="1003Workshops">
+                        <div id='workshops-10-03-18'></div>
+                      </div>
+                    </div>
+                  </header>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="cart">
+    <div class="cartItems">
+      <div class="festival empty">
+      </div>
+      <div class="workshops workshops-08-03-18 empty">
+        <div class="title">
+          Workshop am 8.3.
+        </div>
+        <div class="workshop">
+        </div>
+      </div>
+      <div class="workshops workshops-09-03-18 empty">
+        <div class="title">
+          Workshop am 9.3.
+        </div>
+        <div class="workshop">
+        </div>
+      </div>
+      <div class="workshops workshops-10-03-18 empty">
+        <div class="title">
+          Workshop am 10.3.
+        </div>
+        <div class="workshop">
+        </div>
+      </div>
+    </div>
+    <button id="checkout" disabled="disabled">checkout</button>
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="http://sdks.shopifycdn.com/js-buy-sdk/v1/latest/index.umd.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      var scriptURL = 'http://sdks.shopifycdn.com/js-buy-sdk/v1/latest/index.umd.min.js';
+      if (window.ShopifyBuy) {
+        if (window.ShopifyBuy.UI) {
+          ShopifyBuyInit();
+        } else {
+          loadScript();
+        }
+      } else {
+        loadScript();
+      }
+
+      function loadScript() {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = scriptURL;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+        script.onload = ShopifyBuyInit;
+      }
+
+      function ShopifyBuyInit() {
+
+        function addProductToCart(product, collection, variantId, client, checkoutId, cart) {
+          var divToAdd;
+          if(collection === null) {
+            // its the ticket
+            divToAdd = $('.cart .festival');
+            //enable the checkout and TODO change the text
+            $('#checkout').attr("disabled", false);
+          } else {
+            divToAdd = $('.cart .' + collection + ' .workshop');
+          }
+          divToAdd.append('<div>' + product.title + '</div>')
+          divToAdd.append('<button id="' + variantId + '" class="delete">delete me</button>');
+          client.checkout.fetch(checkoutId).then((checkout) => {
+            $('#' + variantId + '.delete').click(function() {
+              for(var i = 0; i < checkout.lineItems.length; i++) {
+                if(variantId === checkout.lineItems[i].variant.id) {
+                  client.checkout.removeLineItems(checkoutId, checkout.lineItems[i].id).then((checkout) => {
+                    console.log('removed');
+                    // delete from cart
+                    // if its the festival ticket disable the checkout button again
+                    if(collection === null) {
+                      $('#checkout').attr("disabled", true);
+                    }
+                    // removeClass picked (collection)
+                    $(this).parent().empty();
+                    // $('#' + collection).find('.picked button').attr("disabled", false);
+                    $('#' + collection).find('.picked').removeClass('picked');
+                    delete cart[collection];
+                    // check if festival ticket was removed
+                    // if yes disable checkout
+                    // just disable checkout and dont disable workshops makes more sense to me TODO
+                  });
+                }
+              }
+            });
+          });
+        }
+
+        function addProduct(client, variantId, checkoutId, collectionHandle, cart, product) {
+          // check if one item from the same collection is already in the checkout
+          // if yes remove the old one
+          console.log(variantId);
+          if(typeof cart[collectionHandle] === "string") {
+            var idToRemove;
+            client.checkout.fetch(checkoutId).then((checkout) => {
+              // Do something with the checkout
+              console.log(checkout);
+              for(var i = 0; i < checkout.lineItems.length; i++) {
+                if(checkout.lineItems[i].variant.id === cart[collectionHandle]) {
+                  idToRemove = checkout.lineItems[i].id;
+                }
+              }
+              console.log(idToRemove);
+              client.checkout.removeLineItems(checkoutId, idToRemove).then((checkout) => {
+                // Do something with the updated checkout
+                console.log(checkout.lineItems); // Checkout with line item 'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0Lzc4NTc5ODkzODQ=' removed
+                $('.cart .' + collectionHandle + ' .workshop').empty();
+                $('.cart .' + collectionHandle + ' .workshop').addClass('empty');
+                delete cart[collectionHandle];
+
+                // add the new item
+                $('.cart .' + collectionHandle + ' .workshop').removeClass('empty');
+                cart[collectionHandle] = variantId;
+
+                const lineItemsToAdd = [
+                  {variantId: variantId, quantity: 1}
+                ];
+                // Add an item to the checkout
+                client.checkout.addLineItems(checkoutId, lineItemsToAdd).then((checkout) => {
+                  // Do something with the updated checkout
+                  addProductToCart(product, collectionHandle, variantId, client, checkoutId, cart);
+                  console.log(checkout.lineItems); // Array with one additional line item
+                });
+                console.log(cart);
+
+              });
+            });
+          } else {
+
+            // add the new item
+            $('.cart .' + collectionHandle + ' .workshop').removeClass('empty');
+            cart[collectionHandle] = variantId;
+
+            const lineItemsToAdd = [
+              {variantId: variantId, quantity: 1}
+            ];
+            // Add an item to the checkout
+            client.checkout.addLineItems(checkoutId, lineItemsToAdd).then((checkout) => {
+              // Do something with the updated checkout
+              addProductToCart(product, collectionHandle, variantId, client, checkoutId, cart);
+              console.log(checkout.lineItems); // Array with one additional line item
+            });
+            console.log(cart);
+          }
+        }
+
+        var client = ShopifyBuy.buildClient({
+          domain: 'business-riot-festival.myshopify.com',
+          storefrontAccessToken: 'ed487bf89aca8e42d973294f48e51b8f'
+        });
+
+        console.log(client);
+        var cart = {};
+        // client.shop.fetchInfo().then((infos) => {
+        //     console.log(infos);
+        // });
+        client.collection.fetchAllWithProducts().then((collections) => {
+          // Do something with the collections
+          console.log(collections);
+          console.log(addProduct);
+          console.log(collections[0].products);
+          var checkoutId;
+          client.checkout.create().then((checkout) => {
+            // Do something with the checkout
+            console.log(checkout);
+            checkoutId = checkout.id;
+            $('#checkout').click(function() {
+              console.log(checkout);
+              // check if the ticket is in the checkout
+              window.open(checkout.webUrl);
+            })
+          });
+
+          const productId = 'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0LzIwNTkwMzE2NzUzMg==';
+          client.product.fetch(productId).then((product) => {
+            // Do something with the product
+            console.log(product);
+            $('#productTicket').append('<div class="productWrapper ticket">' +
+                                       '<div class="titel">' + product.title + '</div>'  +
+                                       '<div class="price">' + product.variants[0].price + ' €</div>' +
+                                       '<button class="buy-button" id="' + product.variants[0].id + '">buy me</button>' +
+                                       '</div>');
+            $('#' + product.variants[0].id).click(function() {
+              addProduct(client, product.variants[0].id, checkoutId, null, cart, product);
+              // $('.workshopsWrapper').find('button').attr("disabled", false);
+            });
+          });
+          for(let i = 0; i < collections.length; i++) {
+            cart[collections[i].handle];
+            var collectionDiv = $('#' + collections[i].handle);
+            for(let j = 0; j < collections[i].products.length; j++) {
+              collectionDiv.append('<div class="productWrapper"><div class="title">' + collections[i].products[j].title + '</div>' +
+                                   '<div class="price"> ' + collections[i].products[j].variants[0].price + ' €</div>' +
+                                   '<button class="buy-button" id="' + collections[i].products[j].variants[0].id + '">buy me</button></div>')
+              $('#' + collections[i].products[j].variants[0].id).click(function() {
+                $(this).parent().parent().find('.productWrapper').removeClass('picked');
+                // $(this).parent().parent().find('button').attr("disabled", false);
+                $(this).parent().addClass('picked');
+                // $(this).attr("disabled", true);
+                addProduct(client, collections[i].products[j].variants[0].id, checkoutId, collections[i].handle, cart, collections[i].products[j]);
+              });
+            }
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
